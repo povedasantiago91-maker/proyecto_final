@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    padding-top: 0px; /* 🔥 evita que navbar tape contenido */
+}
+
+.custom-navbar {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    color: #00ff88 !important;
+    font-weight: bold;
+}
+
+.nav-link {
+    color: white !important;
+    transition: 0.3s;
+    display: flex;
+}
+
+.nav-link:hover {
+    color: #00ff88 !important;
+}
+
+#Hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url("img/inicio_2.png") no-repeat center/cover;
+    text-align: center;
+}
+
+#Hero::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+#Hero h2,
+#Hero p,
+#Hero button {
+    position: relative;
+    z-index: 1;
+}
+
+#Hero h2 {
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.774);
+    animation: subir 1s ease-out;
+}
+
+#Hero p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.774);
+    animation: subir 1.5s ease-out;
+}
+
+.cta-button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: #00ff88;
+    border: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    animation: subir 2.1s ease-out;
+}
+
+.cta-button:hover {
+    background: #00cc6a;
+}
+
+#descripcion {
+    position: relative;
+    min-height: 100vh;
+    background: url("img/descripcion.png") no-repeat center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+#descripcion::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+
+.titulo-descripcion {
+    z-index: 1;
+    color: rgba(255, 255, 255, 0.733);
+    font-size: 2.0rem;
+    text-align: center;
+}
+#descripcion {
+    position: relative;
+    min-height: 100vh;
+    background: url("img/descripcion.png") no-repeat center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    animation: subir 1s ease-out;
+}
+
+#descripcion::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+
+
+.texto-descripcion {
+    z-index: 1;
+    max-width: 800px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.733);
+    text-align: center;
+    animation: subir 1.5s ease-out;
+
+}
+
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(50px); /* empieza abajo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* llega a su lugar */
+  }
+
+}
+
+/* FOOTER */
+footer {
+    background: black;
+    padding: 0.5px;
+    text-align: center;
+}
+
+/* SCROLL */
+html {
+    scroll-behavior: smooth;
+}
+
