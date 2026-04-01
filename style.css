@@ -165,3 +165,145 @@ html {
     scroll-behavior: smooth;
 }
 
+#contacto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 50px 20px;
+    margin-top: 50px;
+    animation: subir 0.5s ease-out;
+    background-color: rgba(1, 49, 12, 0.39);
+}
+
+#contacto h2 {
+    margin-bottom: 30px;
+    font-weight: 700;
+    color: #091f0dce;
+    font-size: 2.5rem;
+}
+
+/* FORMULARIO */
+form {
+    background-color: #034d0196;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+form .form-label {
+    font-weight: 500;
+    color: #000000;
+}
+
+form .form-control {
+    border-radius: 8px;
+    border: 1px solid #014b14;
+    padding: 10px 12px;
+    transition: all 0.3s ease;
+}
+
+form .form-control:focus {
+    border-color: #0baa0b;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+form .btn-primary {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background-color: green;
+    border-color: #004100;
+}
+
+form .btn-primary:hover {
+    background-color: #00dd37;
+    border-color: #0baa0b;
+}
+
+/* FORMULARIO REGISTRO */
+#registro {
+    background-color: #034d0196;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 50px 20px;
+    margin-top: 50px;
+    animation: subir 0.5s ease-out; /* distancia desde navbar */
+}
+
+#registro h2 {
+    margin-bottom: 30px;
+    font-weight: 700;
+    color: #024610ce;
+    font-size: 2rem;
+}
+
+#registro form {
+    background-color: #034d0196;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+#registro form .form-label {
+    font-weight: 500;
+    color: #000000;
+}
+
+#registro form .form-control {
+    border-radius: 8px;
+    border: 1px solid #053a00d3;
+    padding: 10px 12px;
+    transition: all 0.3s ease;
+}
+
+#registro form .form-control:focus {
+    border-color: #021529;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Botón de registro */
+.btn-register {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 500;
+    background-color: #28a745; /* verde */
+    border-color: #28a745;
+    color: rgb(255, 255, 255);
+    transition: all 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.boton-inicio-sesion {
+    color: black;
+}
+
+/* RESPONSIVO */
+@media (max-width: 480px) {
+    #registro {
+        padding: 30px 15px;
+    }
+
+    #registro h2 {
+        font-size: 1.5rem;
+    }
+
+    #registro form {
+        padding: 25px 15px;
+    }
+}
