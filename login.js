@@ -1,24 +1,49 @@
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
 
-    const data = {
-        correo: document.getElementById("correo").value,
-        password: document.getElementById("password").value
-    };
+    const form = document.getElementById("loginForm");
 
-    fetch("/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.text())
-    .then(data => {
-        alert(data);
+    if (form) {
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
 
-        if (data === "Login correcto") {
-            window.location.href = "index.html";
-        }
-    });
+            const mensaje = document.getElementById("mensaje");
+
+            const data = {
+                correo: document.getElementById("correo").value,
+                password: document.getElementById("password").value
+            };
+
+            fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.text())
+            .then(data => {
+
+                if (data === "Login correcto") {
+                    mensaje.innerHTML = `
+                        <div class="alert alert-success">${data}</div>
+                    `;
+
+                    // 🔥 REDIRECCIÓN INTELIGENTE
+                    setTimeout(() => {
+                        const params = new URLSearchParams(window.location.search);
+                        const redirect = params.get("redirect");
+
+                        window.location.href = redirect || "index.html";
+                    }, 1500);
+
+                } else {
+                    mensaje.innerHTML = `
+                        <div class="alert alert-danger">${data}</div>
+                    `;
+                }
+
+            });
+        });
+    }
+
 });

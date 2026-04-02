@@ -1,15 +1,28 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+const session = require("express-session");
 
 const app = express();
 
+// 🔧 MIDDLEWARES
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: "secreto123",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false, // true solo en https
+        httpOnly: true
+    }
+}));
+
 app.use(express.static(__dirname));
 
-// 🔗 Conexión a MySQL
+// 🔗 CONEXIÓN A MYSQL
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -30,13 +43,17 @@ db.connect(err => {
 app.post("/registro", (req, res) => {
     const { nombre, correo, password } = req.body;
 
+    console.log("Datos recibidos:", req.body);
+
     const sql = "INSERT INTO usuarios (nombre, correo, password) VALUES (?, ?, ?)";
 
     db.query(sql, [nombre, correo, password], (err, result) => {
+
         if (err) {
-            console.log("err");
+            console.log("ERROR SQL:", err);
             return res.send("Error al registrar");
         }
+
         res.send("Usuario registrado");
     });
 });
@@ -49,13 +66,43 @@ app.post("/login", (req, res) => {
     const sql = "SELECT * FROM usuarios WHERE correo = ? AND password = ?";
 
     db.query(sql, [correo, password], (err, result) => {
-        if (err) return res.send("Error");
+        if (err) {
+            console.log("ERROR LOGIN:", err);
+            return res.send("Error");
+        }
 
         if (result.length > 0) {
+
+            // 🔥 GUARDAR SOLO DATOS NECESARIOS
+            req.session.usuario = {
+                id: result[0].id,
+                nombre: result[0].nombre,
+                correo: result[0].correo
+            };
+
             res.send("Login correcto");
+
         } else {
             res.send("Datos incorrectos");
         }
+    });
+});
+
+
+// 👤 OBTENER USUARIO LOGUEADO
+app.get("/usuario", (req, res) => {
+    if (req.session.usuario) {
+        res.json(req.session.usuario);
+    } else {
+        res.json(null);
+    }
+});
+
+
+// 🚪 LOGOUT
+app.get("/logout", (req, res) => {
+    req.session.destroy(() => {
+        res.send("Sesion cerrada");
     });
 });
 
