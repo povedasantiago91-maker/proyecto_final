@@ -38,6 +38,19 @@ db.connect(err => {
     }
 });
 
+app.get("/productos", (req, res) => {
+    db.query("select*from productos", (err, result) => {
+        if (err) return res.json([]);
+        res.json(result);
+    });
+});
+
+app.get("/coaches", (req, res) => {
+    db.query("select*from coaches", (err, result) => {
+        if(err) return res.json([]);
+        res.json(result);
+    });
+});
 
 // 📝 REGISTRO
 app.post("/registro", (req, res) => {

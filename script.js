@@ -9,8 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             navbar.innerHTML = data;
 
-            // 👉 IMPORTANTE: cargar usuario DESPUÉS del navbar
+            // 👉 IMPORTANTE: ejecutar después de cargar navbar
             cargarUsuario();
+            actualizarCarrito();
         });
     }
 
@@ -26,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// 👤 FUNCIÓN PARA MOSTRAR USUARIO
+// 👤 MOSTRAR USUARIO (SOLO PARTE DINÁMICA)
 function cargarUsuario() {
     const menu = document.getElementById("menuUsuario");
 
@@ -38,22 +39,40 @@ function cargarUsuario() {
     .then(res => res.json())
     .then(user => {
 
-        console.log("Usuario:", user); // debug
+        console.log("Usuario:", user);
 
         if (user) {
-           menu.innerHTML = `
-      <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-      <li class="nav-item"><a class="nav-link" href="coaches.html">Servicios</a></li>
-      <li class="nav-item">
-          <span class="nav-link">👤 Hola, ${user.nombre}</span>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="#" onclick="logout()">Cerrar sesión</a>
-      </li>
-  `;
+            menu.innerHTML = `
+                <li class="nav-item">
+                    <span class="nav-link">👤 Hola, ${user.nombre}</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">Cerrar sesión</a>
+                </li>
+            `;
+        } else {
+            menu.innerHTML = `
+                <li class="nav-item">
+                    <a class="nav-link" href="iniciar_sesion.html">Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="registrarse.html">Registrate</a>
+                </li>
+            `;
         }
 
     });
+}
+
+
+// 🛒 CONTADOR DE CARRITO
+function actualizarCarrito() {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const contador = document.getElementById("contadorCarrito");
+
+    if (contador) {
+        contador.textContent = carrito.length;
+    }
 }
 
 

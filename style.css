@@ -4,10 +4,9 @@
     box-sizing: border-box;
 }
 
-body {
+html, body {
     font-family: 'Poppins', sans-serif;
-    color: white;
-    padding-top: 0px; /* 🔥 evita que navbar tape contenido */
+    color: white; /* 🔥 evita que navbar tape contenido */
 }
 
 .custom-navbar {
@@ -306,4 +305,229 @@ form .btn-primary:hover {
     #registro form {
         padding: 25px 15px;
     }
+}
+
+/* 🔥 SECCIÓN SERVICIOS */
+#coaches, #contenido {
+    min-height: 80vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    text-align: center;
+    padding: 5px ;
+    background: transparent;
+    background-color: #6f6f6f7e;
+    animation: subir 0.5s ease-out;
+}
+/* 🔥 ARREGLAR GRID DE BOOTSTRAP */
+#contenido {
+    display: block !important;
+    width: 100%;
+}
+
+/* 🔥 ASEGURAR QUE ROW FUNCIONE */
+#contenido .row {
+    width: 100%;
+    margin: 0;
+}
+
+/* 🔥 COLUMNAS BIEN */
+#contenido .col-md-4 {
+    display: block;
+}
+
+/* 🔥 BOTONES SERVICIOS */
+#coaches button {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: #00ff88;
+    border: none;
+    color: black;
+    transition: 0.3s;
+}
+
+#coaches button:hover {
+    background-color: #010f08;
+    transform: scale(1.05);
+}
+
+/* 🔥 TARJETAS PRODUCTOS */
+.card {
+    border: none;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 10px 25px rgba(0, 255, 136, 0.3);
+}
+
+/* 🔥 PRECIO PRODUCTO */
+.card p {
+    font-size: 18px;
+    color: #00ff88;
+    font-weight: bold;
+}
+
+/* 🔥 BADGE */
+.badge {
+    background-color: #00ff88 !important;
+    color: black;
+    font-size: 12px;
+}
+
+/* 🔥 BOTÓN COMPRAR */
+.card button {
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #00ff88;
+    color: black;
+    border: none;
+}
+
+.card button:hover {
+    background-color: #00cc6a;
+}
+
+/* 🔥 CARRITO */
+#carrito .card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* 🔥 TEXTO TOTAL */
+#total {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ff88;
+}
+
+/* 🔥 BOTÓN VACIAR */
+button.btn-danger {
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+/* 🔥 INPUT BUSCADOR */
+input.form-control {
+    border-radius: 10px;
+    border: none;
+}
+
+/* 🔥 CONTADOR CARRITO */
+#contadorCarrito {
+    color: #00ff88;
+    font-weight: bold;
+}
+
+/* 🔥 ESPACIADO GENERAL (NAVBAR FIX) */
+body {
+    padding-top: 70px;
+}
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 768px) {
+    #carrito .card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .card {
+        text-align: center;
+    }
+}
+
+/* 🔥 GRID DE SERVICIOS */
+.servicios-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+/* 🔥 CARD */
+.servicio-card {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* 🔥 IMAGEN */
+.servicio-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 🔥 OVERLAY */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🔥 TEXTO */
+.overlay h3 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* 🔥 HOVER EFECTO */
+.servicio-card:hover {
+    transform: scale(1.08);
+    box-shadow: 0px 10px 25px rgba(0, 255, 136, 0.5);
+}
+
+.servicio-card:hover .overlay {
+    background: rgba(0, 255, 136, 0.3);
+}
+
+section {
+    margin-top: 0 !important;
+}
+
+/* 🔥 QUITAR ESPACIO BLANCO SUPERIOR */
+body {
+    margin: 0;
+    padding-top: 70px; /* deja espacio para navbar fija */
+    background-color: #0a0a0a; /* o el color que quieras */
+}
+
+/* 🔥 ELIMINA MÁRGENES DE BOOTSTRAP */
+.container,
+.container-fluid {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* 🔥 SECCIONES PEGADAS A LA NAVBAR */
+section {
+    margin-top: 0 !important;
+    padding-top: 20px; /* opcional */
+}
+
+/* 🔥 PRIMER BLOQUE SIN ESPACIO */
+section:first-of-type {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
 }
