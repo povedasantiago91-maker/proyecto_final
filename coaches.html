@@ -13,7 +13,10 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
-</head>
+
+    <link rel="icon" href="img/favicon.png" type="image/png">
+
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet"></head>
 
 <body>
 
@@ -30,14 +33,14 @@
         <div class="servicio-card" onclick="verProductos()">
             <img src="img/productos.png" alt="Productos">
             <div class="overlay">
-                <h3>🧴 Productos</h3>
+                <h2 class="titulo-catalogo">🧴 Productos</h2>
             </div>
         </div>
 
         <div class="servicio-card" onclick="verCoaches()">
             <img src="img/coaches.png" alt="Coaches">
             <div class="overlay">
-                <h3>🏋️ Coaches</h3>
+                <h2 class="titulo-catalogo">🏋️ Coaches</h2>
             </div>
         </div>
 
@@ -69,9 +72,20 @@ fetch("/usuario", { credentials: "include" })
 </script>
 
 <!-- 🚀 FUNCIONALIDAD CATÁLOGOS -->
-<script id="filterprod">
+<script>
 
+// =========================
+// 🔥 PRODUCTOS
+// =========================
 function verProductos() {
+
+    const coaches = document.getElementById("coaches");
+
+    // 🔥 ocultar completamente (sin dejar espacio)
+    coaches.style.display = "none";
+    coaches.style.minHeight = "0";
+    coaches.style.padding = "0";
+
     fetch("/productos", {
         credentials: "include"
     })
@@ -79,7 +93,13 @@ function verProductos() {
     .then(data => {
 
         let html = `
-            <h3 class="text-center">Productos</h3>
+            <div class="w-100 text-center mb-3">
+                <button class="btn btn-secondary" onclick="volverServicios()">⬅ Volver</button>
+            </div>
+
+            <div class="w-100 text-center mb-4">
+                <h2 class="titulo-catalogo">🧴 Productos</h2>
+            </div>
 
             <div class="text-center mb-3">
                 <button class="btn btn-outline-primary m-1" onclick="filtrar('Todos')">Todos</button>
@@ -90,13 +110,21 @@ function verProductos() {
             <div class="row" id="listaProductos"></div>
         `;
 
-        document.getElementById("contenido").innerHTML = html;
+        const contenedor = document.getElementById("contenido");
+        contenedor.innerHTML = html;
 
+        window.productosGlobal = data;
         mostrarProductos(data);
-        window.productosGlobal = data; // guardar datos
+
+        // 🔥 scroll suave
+        contenedor.scrollIntoView({ behavior: "smooth" });
     });
 }
 
+
+// =========================
+// 🔥 MOSTRAR PRODUCTOS
+// =========================
 function mostrarProductos(data) {
     let html = "";
 
@@ -107,7 +135,7 @@ function mostrarProductos(data) {
                     <h5>${p.nombre}</h5>
                     <p><strong>$${p.precio}</strong></p>
                     <span class="badge bg-primary">${p.categoria}</span>
-                    <button class="btn btn-success mt-2" onclick="comprar('${p.nombre}',${p.precio})">
+                    <button class="btn btn-success mt-2" onclick="comprar('${p.nombre}', ${p.precio})">
                         Comprar
                     </button>
                 </div>
@@ -118,6 +146,10 @@ function mostrarProductos(data) {
     document.getElementById("listaProductos").innerHTML = html;
 }
 
+
+// =========================
+// 🔥 FILTRAR PRODUCTOS
+// =========================
 function filtrar(categoria) {
     if (categoria === "Todos") {
         mostrarProductos(window.productosGlobal);
@@ -127,6 +159,10 @@ function filtrar(categoria) {
     }
 }
 
+
+// =========================
+// 🛒 COMPRAR
+// =========================
 function comprar(nombre, precio) {
 
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -139,18 +175,34 @@ function comprar(nombre, precio) {
     localStorage.setItem("carrito", JSON.stringify(carrito));
 
     alert("🛒 Agregado al carrito: " + nombre);
+    actualizarCarrito();
 }
-</script>
 
-<script id="filtercoach">
 
+// =========================
+// 🏋️ COACHES
+// =========================
 function verCoaches() {
+
+    const coaches = document.getElementById("coaches");
+
+    // 🔥 ocultar completamente
+    coaches.style.display = "none";
+    coaches.style.minHeight = "0";
+    coaches.style.padding = "0";
+
     fetch("/coaches")
     .then(res => res.json())
     .then(data => {
 
         let html = `
-            <h3 class="text-center">Coaches</h3>
+            <div class="w-100 text-center mb-3">
+                <button class="btn btn-secondary" onclick="volverServicios()">⬅ Volver</button>
+            </div>
+
+            <div class="w-100 text-center mb-4">
+                <h2 class="titulo-catalogo">🏋️ Coaches</h2>
+            </div>
 
             <div class="text-center mb-3">
                 <input type="text" id="busqueda" placeholder="Buscar ciudad..." class="form-control w-50 mx-auto">
@@ -160,13 +212,21 @@ function verCoaches() {
             <div class="row" id="listaCoaches"></div>
         `;
 
-        document.getElementById("contenido").innerHTML = html;
+        const contenedor = document.getElementById("contenido");
+        contenedor.innerHTML = html;
 
         window.coachesGlobal = data;
         mostrarCoaches(data);
+
+        // 🔥 scroll suave
+        contenedor.scrollIntoView({ behavior: "smooth" });
     });
 }
 
+
+// =========================
+// 🔥 MOSTRAR COACHES
+// =========================
 function mostrarCoaches(data) {
     let html = "";
 
@@ -185,6 +245,10 @@ function mostrarCoaches(data) {
     document.getElementById("listaCoaches").innerHTML = html;
 }
 
+
+// =========================
+// 🔍 BUSCAR COACH
+// =========================
 function buscarCoach() {
     const ciudad = document.getElementById("busqueda").value.toLowerCase();
 
@@ -194,7 +258,22 @@ function buscarCoach() {
 
     mostrarCoaches(filtrados);
 }
-</script>
 
+
+// =========================
+// 🔙 VOLVER
+// =========================
+function volverServicios() {
+    const coaches = document.getElementById("coaches");
+
+    // 🔥 restaurar todo
+    coaches.style.display = "flex";
+    coaches.style.minHeight = "auto";
+    coaches.style.padding = "40px 0";
+
+    document.getElementById("contenido").innerHTML = "";
+}
+
+</script>
 </body>
 </html>

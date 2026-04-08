@@ -7,15 +7,18 @@
 html, body {
     font-family: 'Poppins', sans-serif;
     color: white;
-    height: 100%; /* 🔥 evita que navbar tape contenido */
+    height: 100%;
 }
 
+/* 🔥 LAYOUT BASE */
 body {
     display: flex;
     flex-direction: column;
+    padding-top: 70px;
+    background-color: #0a0a0a;
 }
 
-/* 🔥 CONTENIDO CRECE */
+/* 🔥 CONTENIDO PRINCIPAL */
 #contenido,
 #registro,
 #contacto,
@@ -23,11 +26,25 @@ body {
     flex: 1;
 }
 
-/* 🔥 FOOTER FIJO ABAJO */
-footer {
-    margin-top: auto;
+/* 🔥 CONTENIDO DINÁMICO (ARREGLADO) */
+#contenido {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 40px 0;
+    display: block;
+    background-color: #ffffff7b ;
 }
 
+/* 🔥 FOOTER */
+footer {
+    margin-top: auto;
+    background: rgba(0, 68, 0, 0.329);
+    padding: 0.5px;
+    text-align: center;
+}
+
+/* 🔥 NAVBAR */
 .custom-navbar {
     background: rgba(1, 31, 0, 0.705) !important;
     backdrop-filter: blur(10px);
@@ -48,13 +65,45 @@ footer {
     color: #00ff88 !important;
 }
 
+/* 🔥 NAVBAR CENTRADA */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* 🔥 CENTRAR CONTENIDO */
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 🔥 CENTRAR LINKS */
+.navbar-nav .nav-item {
+    display: flex;
+    align-items: center;
+}
+
+/* 🔥 CARRITO MÁS PRO */
+#contadorCarrito {
+    background: #00ff88;
+    color: black;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* 🔥 HERO */
 #Hero {
     position: relative;
     height: calc(100vh - 70px);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     background: url("img/inicio_2.png") no-repeat center/cover;
     text-align: center;
 }
@@ -62,31 +111,33 @@ footer {
 #Hero::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 0;
+}
+#Hero h2 {
+    position: relative;
+    z-index: 1;
+    font-size: 4rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgba(255, 255, 255, 0.915);
+    animation: subir 0.5s ease forwards;
 }
 
-#Hero h2,
+
 #Hero p,
 #Hero button {
     position: relative;
     z-index: 1;
+    font-size: 2.5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgba(255, 255, 255, 0.919);
+    animation: subir 0.5s ease forwards;
+
 }
 
-#Hero h2 {
-    font-size: 3rem;
-    color: rgba(255, 255, 255, 0.774);
-    animation: subir 1s ease-out;
-}
-
-#Hero p {
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.774);
-    animation: subir 1.5s ease-out;
+#Hero button {
+    color: black;
 }
 
 .cta-button {
@@ -98,13 +149,9 @@ footer {
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    animation: subir 2.1s ease-out;
 }
 
-.cta-button:hover {
-    background: #00cc6a;
-}
-
+/* 🔥 DESCRIPCIÓN */
 #descripcion {
     position: relative;
     min-height: 100vh;
@@ -124,349 +171,106 @@ footer {
     background: rgba(0,0,0,0.7);
 }
 
-.titulo-descripcion {
-    z-index: 1;
-    color: rgba(255, 255, 255, 0.733);
-    font-size: 2.0rem;
-    text-align: center;
-}
-#descripcion {
-    position: relative;
-    min-height: 100vh;
-    background: url("img/descripcion.png") no-repeat center/cover;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    animation: subir 1s ease-out;
-}
-
-#descripcion::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-}
-
-
+.titulo-descripcion,
 .texto-descripcion {
     z-index: 1;
-    max-width: 800px;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.733);
     text-align: center;
-    animation: subir 1.5s ease-out;
-
+    margin-bottom: 50px;
 }
 
-@keyframes subir {
-  from {
-    opacity: 0;
-    transform: translateY(50px); /* empieza abajo */
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0); /* llega a su lugar */
-  }
-
-}
-
-/* FOOTER */
-footer {
-    background: rgba(0, 68, 0, 0.329);
-    padding: 0.5px;
-    text-align: center;
-}
-
-/* SCROLL */
-html {
-    scroll-behavior: smooth;
-}
-
+/* 🔥 CONTACTO */
 #contacto {
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     padding: 50px 20px;
     margin-top: 50px;
-    animation: subir 0.5s ease-out;
     background-color: rgba(1, 49, 12, 0.39);
 }
 
-#contacto h2 {
-    margin-bottom: 30px;
-    font-weight: 700;
-    color: #091f0dce;
-    font-size: 2.5rem;
-}
-
-/* FORMULARIO */
+/* 🔥 FORMULARIOS */
 form {
     background-color: #034d0196;
-    padding: 30px 25px;
+    padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    width: 100%;
     max-width: 400px;
-}
-
-form .form-label {
-    font-weight: 500;
-    color: #000000;
-}
-
-form .form-control {
-    border-radius: 8px;
-    border: 1px solid #014b14;
-    padding: 10px 12px;
-    transition: all 0.3s ease;
-}
-
-form .form-control:focus {
-    border-color: #0baa0b;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-form .btn-primary {
     width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    background-color: rgb(0, 59, 0);
-    border-color: #004100;
+    margin: 0 auto;
+}
+form .btn, .btn-register {
+    display: block;
+    margin: 15px auto 0 auto;
 }
 
-form .btn-primary:hover {
-    background-color: #00dd37;
-    border-color: #0baa0b;
-}
-
-/* FORMULARIO REGISTRO */
+/* 🔥 REGISTRO */
 #registro {
     background-color: #8fff8f96;
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     padding: 50px 20px;
-    margin-top: 50px;
-    animation: subir 0.5s ease-out; /* distancia desde navbar */
+}
+#registro, #contacto {
+    align-items: center;
 }
 
-#registro h2 {
-    padding: 100px;
-    margin-bottom: 30px;
-    font-weight: 700;
-    color: #c6fccdce;
-    font-size: 5rem;
-}
-
-#registro form {
-    background-color: #034d0196;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 450px;
-}
-
-#registro form .form-label {
-    font-weight: 500;
-    color: #000000;
-}
-
-#registro form .form-control {
-    border-radius: 8px;
-    border: 1px solid #053a00d3;
-    padding: 10px 12px;
-    transition: all 0.3s ease;
-}
-
-#registro form .form-control:focus {
-    border-color: #021529;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-}
-
-/* Botón de registro */
-.btn-register {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: 500;
-    background-color: #28a745; /* verde */
-    border-color: #28a745;
-    color: rgb(255, 255, 255);
-    transition: all 0.3s ease;
-}
-
-.btn-register:hover {
-    background-color: #218838;
-    border-color: #1e7e34;
-}
-
-.boton-inicio-sesion {
-    color: black;
-}
-
-/* RESPONSIVO */
-@media (max-width: 480px) {
-    #registro {
-        padding: 30px 15px;
-    }
-
-    #registro h2 {
-        font-size: 1.5rem;
-    }
-
-    #registro form {
-        padding: 25px 15px;
-    }
-}
-
-/* 🔥 SECCIÓN SERVICIOS */
-#coaches, #contenido {
+/* 🔥 SERVICIOS */
+#coaches {
     min-height: 80vh;
-    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;    text-align: center;
-    padding: 5px ;
-    background: transparent;
-    background-color: #6f6f6f7e;
-    animation: subir 0.5s ease-out;
-}
-/* 🔥 ARREGLAR GRID DE BOOTSTRAP */
-#contenido {
-    display: block !important;
-    width: 100%;
-}
-
-/* 🔥 ASEGURAR QUE ROW FUNCIONE */
-#contenido .row {
-    width: 100%;
-    margin: 0;
-}
-
-/* 🔥 COLUMNAS BIEN */
-#contenido .col-md-4 {
-    display: block;
-}
-
-/* 🔥 BOTONES SERVICIOS */
-#coaches button {
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: bold;
-    background-color: #00ff88;
-    border: none;
-    color: black;
-    transition: 0.3s;
-}
-
-#coaches button:hover {
-    background-color: #010f08;
-    transform: scale(1.05);
-}
-
-/* 🔥 TARJETAS PRODUCTOS */
-.card {
-    border: none;
-    border-radius: 15px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0px 10px 25px rgba(0, 255, 136, 0.3);
-}
-
-/* 🔥 PRECIO PRODUCTO */
-.card p {
-    font-size: 18px;
-    color: #00ff88;
-    font-weight: bold;
-}
-
-/* 🔥 BADGE */
-.badge {
-    background-color: #00ff88 !important;
-    color: black;
-    font-size: 12px;
-}
-
-/* 🔥 BOTÓN COMPRAR */
-.card button {
-    border-radius: 10px;
-    font-weight: 600;
-    background-color: #00ff88;
-    color: black;
-    border: none;
-}
-
-.card button:hover {
-    background-color: #00cc6a;
-}
-
-/* 🔥 CARRITO */
-#carrito .card {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    background: rgba(0, 0, 0, 0.8);
+    position: relative;
+    z-index: 1;
+    background-color: #ffffff7b;
 }
 
-/* 🔥 TEXTO TOTAL */
-#total {
-    font-size: 24px;
+#coaches h2 {
+    font-size: 5rem;
     font-weight: bold;
-    color: #00ff88;
+    text-align: center;
+    font-family: 'Permanent Marker', cursive;
+
+    background: linear-gradient(90deg, #00ff88, #ffffff, #00ff88);
+    background-size: 200%;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: moverGradient 3s linear infinite;
 }
 
-/* 🔥 BOTÓN VACIAR */
-button.btn-danger {
-    border-radius: 10px;
-    padding: 10px 20px;
+/* 🔥 TÍTULOS DE CATÁLOGOS (PRODUCTOS / COACHES) */
+.titulo-catalogo {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 3rem;
+    text-align: center;
+
+    /* 🔥 DEGRADADO */
+    background: linear-gradient(90deg, #ffffff, #09ff0081, #ffffff);
+    background-size: 200%;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* 🔥 ANIMACIÓN */
+    animation: moverGradient 4s linear infinite, vibrar 0.2s infinite alternate;
 }
 
-/* 🔥 INPUT BUSCADOR */
-input.form-control {
-    border-radius: 10px;
-    border: none;
+/* 🔥 movimiento del color */
+@keyframes moverGradient {
+    0% { background-position: 0% }
+    100% { background-position: 200% }
 }
 
-/* 🔥 CONTADOR CARRITO */
-#contadorCarrito {
-    color: #00ff88;
-    font-weight: bold;
+/* 🔥 efecto grafiti (vibración leve) */
+@keyframes vibrar {
+    from { transform: translate(0px, 0px); }
+    to { transform: translate(1px, -1px); }
 }
 
-/* 🔥 ESPACIADO GENERAL (NAVBAR FIX) */
-body {
-    padding-top: 70px;
-}
-
-/* 🔥 RESPONSIVE */
-@media (max-width: 768px) {
-    #carrito .card {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .card {
-        text-align: center;
-    }
-}
-
-/* 🔥 GRID DE SERVICIOS */
+/* 🔥 GRID */
 .servicios-grid {
     display: flex;
     gap: 30px;
@@ -475,81 +279,207 @@ body {
     margin-top: 30px;
 }
 
-/* 🔥 CARD */
+/* 🔥 CARD SERVICIO */
 .servicio-card {
     position: relative;
-    width: 300px;
-    height: 200px;
+    z-index: 1;
+    width: 350px;
+    height: 250px;
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
-/* 🔥 IMAGEN */
 .servicio-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* 🔥 OVERLAY */
 .overlay {
     position: absolute;
-    top: 0;
-    left: 0;
+    z-index: 2;
     width: 100%;
     height: 100%;
-
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0,0,0,0.5);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* 🔥 TEXTO */
 .overlay h3 {
     color: white;
     font-size: 1.5rem;
-    font-weight: bold;
 }
 
-/* 🔥 HOVER EFECTO */
+/* 🔥 HOVER */
 .servicio-card:hover {
     transform: scale(1.08);
-    box-shadow: 0px 10px 25px rgba(0, 255, 136, 0.5);
 }
 
 .servicio-card:hover .overlay {
     background: rgba(0, 255, 136, 0.3);
 }
 
-section {
-    margin-top: 0 !important;
+/* 🔥 TARJETAS PRODUCTOS */
+.card {
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-/* 🔥 QUITAR ESPACIO BLANCO SUPERIOR */
-body {
+.card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0px 15px 30px rgba(0, 255, 136, 0.4);
+}
+
+/* 🔥 EFECTO SUAVE EN CONTENIDO INTERNO */
+.card h5,
+.card p,
+.card span,
+.card button {
+    transition: all 0.3s ease;
+}
+
+/* 🔥 OPCIONAL: BOTÓN MÁS INTERACTIVO */
+.card:hover button {
+    transform: scale(1.1);
+}
+
+/* 🔥 BOTONES FILTRO PRODUCTOS */
+#contenido .btn-outline-primary {
+    color: #00ff88;
+    border: 2px solid #00ff88;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+#contenido .btn-outline-primary:hover {
+    background-color: #00ff88;
+    color: black;
+    transform: scale(1.05);
+}
+
+/* 🔥 CONTENEDOR CARRITO */
+#carrito {
+    margin-top: 30px;
+}
+
+/* 🔥 TARJETAS DEL CARRITO */
+#carrito .card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+
+    padding: 20px;
+    transition: all 0.3s ease;
+
+    /* 🔥 animación */
+    opacity: 0;
+    transform: translateY(40px);
+    animation: subir 0.5s ease forwards;
+}
+
+/* 🔥 HOVER PRO */
+#carrito .card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0px 10px 25px rgba(0, 255, 136, 0.4);
+}
+
+/* 🔥 NOMBRE PRODUCTO */
+#carrito .card h5 {
     margin: 0;
-    padding-top: 70px; /* deja espacio para navbar fija */
-    background-color: #0a0a0a; /* o el color que quieras */
+    font-weight: bold;
 }
 
-/* 🔥 ELIMINA MÁRGENES DE BOOTSTRAP */
-.container,
-.container-fluid {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
+/* 🔥 PRECIO */
+#carrito .card p {
+    margin: 0;
+    font-size: 18px;
+    color: #00ff88;
+    font-weight: bold;
 }
 
-/* 🔥 SECCIONES PEGADAS A LA NAVBAR */
-section {
-    margin-top: 0 !important;
-    padding-top: 20px; /* opcional */
+/* 🔥 BOTÓN ELIMINAR */
+#carrito .card button {
+    border-radius: 10px;
+    padding: 8px 15px;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-/* 🔥 PRIMER BLOQUE SIN ESPACIO */
-section:first-of-type {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
+/* 🔥 BOTÓN ELIMINAR HOVER */
+#carrito .card button:hover {
+    transform: scale(1.1);
+}
+
+/* 🔥 TOTAL */
+#total {
+    font-size: 28px;
+    font-weight: bold;
+    color: #00ff88;
+    text-align: right;
+
+    /* animación */
+    animation: subir 0.6s ease;
+}
+
+/* 🔥 BOTÓN VACIAR */
+button.btn-danger {
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+/* 🔥 HOVER BOTÓN VACIAR */
+button.btn-danger:hover {
+    transform: scale(1.1);
+    background-color: #ff3c3c;
+}
+.container {
+    flex: 1;
+}
+/* 🔥 TÍTULO CARRITO (MISMO ESTILO GRAFITI) */
+.container h2 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 3rem;
+
+    background: linear-gradient(90deg, #00ff88, #ffffff, #00ff88);
+    background-size: 200%;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: moverGradient 3s linear infinite;
+}
+
+
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 768px) {
+    .card {
+        text-align: center;
+    }
+}
+
+/* 🔥 ANIMACIÓN */
+@keyframes subir {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

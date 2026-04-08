@@ -65,7 +65,7 @@ function cargarUsuario() {
 }
 
 
-// 🛒 CONTADOR DE CARRITO
+// 🔥 ACTUALIZAR CONTADOR (ya lo tienes pero lo reforzamos)
 function actualizarCarrito() {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     const contador = document.getElementById("contadorCarrito");
@@ -74,6 +74,14 @@ function actualizarCarrito() {
         contador.textContent = carrito.length;
     }
 }
+
+// 🔥 ESCUCHAR CAMBIOS EN TIEMPO REAL
+window.addEventListener("storage", () => {
+    actualizarCarrito();
+});
+
+// 🔥 ACTUALIZAR CADA VEZ QUE CAMBIE EL DOM
+setInterval(actualizarCarrito, 500);
 
 
 // 🚪 LOGOUT
