@@ -14,8 +14,9 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    padding-top: 70px;
+    padding-top: 60px;
     background-color: #0a0a0a;
+    min-height: 100vh;
 }
 
 /* 🔥 CONTENIDO PRINCIPAL */
@@ -46,8 +47,21 @@ footer {
 
 /* 🔥 NAVBAR */
 .custom-navbar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     background: rgba(1, 31, 0, 0.705) !important;
     backdrop-filter: blur(10px);
+    border-bottom: none !important;
+    box-shadow: none !important;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+}
+.navbar {
+    border: none !important;
 }
 
 .navbar-brand {
@@ -70,10 +84,15 @@ footer {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-direction: row;
 }
 
 /* 🔥 CENTRAR CONTENIDO */
 .navbar .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 10px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -183,10 +202,11 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px 20px;
-    margin-top: 50px;
-    background-color: rgba(1, 49, 12, 0.39);
+    padding: 20px 10px;
+    margin-top: 10px;
+    background-color: #8fff8f96;
 }
+
 
 /* 🔥 FORMULARIOS */
 form {
@@ -292,6 +312,8 @@ form .btn, .btn-register {
 }
 
 .servicio-card img {
+    position: absolute;
+    z-index: 1;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -308,10 +330,16 @@ form .btn, .btn-register {
     align-items: center;
 }
 
-.overlay h3 {
-    color: white;
-    font-size: 1.5rem;
+.overlay h2 {
+    color: #fffffffd;
+    font-size: 3rem !important;
+    font-weight: bold;
+    text-align: center;
+
+    /* 🔥 EFECTO PARA QUE SIEMPRE SE VEA */
+    text-shadow: 0 0 10px rgba(0,0,0,0.9);
 }
+
 
 /* 🔥 HOVER */
 .servicio-card:hover {
@@ -368,6 +396,7 @@ form .btn, .btn-register {
     margin-top: 30px;
 }
 
+
 /* 🔥 TARJETAS DEL CARRITO */
 #carrito .card {
     display: flex;
@@ -422,6 +451,12 @@ form .btn, .btn-register {
     transform: scale(1.1);
 }
 
+.carrito-vacio {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
 /* 🔥 TOTAL */
 #total {
     font-size: 28px;
@@ -435,18 +470,27 @@ form .btn, .btn-register {
 
 /* 🔥 BOTÓN VACIAR */
 button.btn-danger {
-    border-radius: 12px;
+    border-radius: 22px;
     padding: 10px 20px;
     font-weight: bold;
     transition: 0.3s;
+    background-color: rgb(0, 159, 26);
+    color: rgb(189, 247, 193);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 /* 🔥 HOVER BOTÓN VACIAR */
 button.btn-danger:hover {
     transform: scale(1.1);
-    background-color: #ff3c3c;
+    background-color: #2ae700ee;
 }
+
 .container {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
     flex: 1;
 }
 /* 🔥 TÍTULO CARRITO (MISMO ESTILO GRAFITI) */
@@ -461,6 +505,31 @@ button.btn-danger:hover {
     -webkit-text-fill-color: transparent;
 
     animation: moverGradient 3s linear infinite;
+}
+
+#toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    background: #00ff88;
+    color: black;
+
+    padding: 15px 20px;
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.4s;
+
+    z-index: 9999;
+}
+
+#toast.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 

@@ -33,26 +33,35 @@
 
 <!-- 🔥 SCRIPT GENERAL (MUY IMPORTANTE) -->
 <script src="script.js"></script>
-<script>
-fetch("/usuario", { credentials: "include" })
-.then(res => res.json())
-.then(user => {
-    if (!user) {
-        window.location.href = "iniciar_sesion.html?redirect=coaches.html";
-    }
-});
-</script>
+
 
 <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    cargarCarrito();
+});
 
 function cargarCarrito() {
+
+    const contenedor = document.getElementById("carrito");
+    const totalBox = document.getElementById("total");
+
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    console.log("Carrito leído:", carrito);
+
+    if (carrito.length === 0) {
+        contenedor.innerHTML = "<h4 class= 'carrito-vacio text-center'>El carrito está vacío</h4>";
+        totalBox.innerText = "Total: $0";
+        return;
+    }
 
     let html = "";
     let total = 0;
 
     carrito.forEach((item, index) => {
-        total += item.precio;
+
+        total += Number(item.precio);
 
         html += `
             <div class="card p-3 m-2 shadow">
@@ -65,26 +74,34 @@ function cargarCarrito() {
         `;
     });
 
-    document.getElementById("carrito").innerHTML = html;
-    document.getElementById("total").innerText = "Total: $" + total;
+    contenedor.innerHTML = html;
+    totalBox.innerText = "Total: $" + total;
 }
 
+
+// ❌ eliminar uno
 function eliminar(index) {
+
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
     carrito.splice(index, 1);
+
     localStorage.setItem("carrito", JSON.stringify(carrito));
+    actualizarCarrito();
     cargarCarrito();
 }
 
+
+// 🧹 vaciar todo
 function vaciar() {
+
     localStorage.removeItem("carrito");
+    actualizarCarrito();
     cargarCarrito();
 }
-
-// 🔥 CARGAR AL INICIO
-cargarCarrito();
 
 </script>
 
+<div id="toast"></div>
 </body>
 </html>

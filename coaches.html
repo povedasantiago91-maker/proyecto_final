@@ -1,279 +1,266 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios - Vitalora</title>
+<!DOCTYPE html>  <html lang="es">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Servicios - Vitalora</title>  <!-- Bootstrap -->  
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">  
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Fuente -->  
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">  
 
-    <!-- Fuente -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<!-- CSS -->  
+<link rel="stylesheet" href="style.css">  
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+<link rel="icon" href="img/favicon.png" type="image/png">
 
-    <link rel="icon" href="img/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet"></head>  <body>  <!-- NAVBAR -->  <div id="navbar"></div>  <!-- CONTENIDO -->  <section id="coaches">  <h2>Servicios</h2>  
 
-<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet"></head>
+<div class="servicios-grid">  
 
-<body>
+    <div class="servicio-card" onclick="verProductos()">  
+        <img src="img/productos.png" alt="Productos">  
+        <div class="overlay">  
+            <h2 class="titulo-catalogo">🧴 Productos</h2>  
+        </div>  
+    </div>  
 
-<!-- NAVBAR -->
-<div id="navbar"></div>
+    <div class="servicio-card" onclick="verCoaches()">  
+        <img src="img/coaches.png" alt="Coaches">  
+        <div class="overlay">  
+            <h2 class="titulo-catalogo">🏋️ Coaches</h2>  
+        </div>  
+    </div>  
 
-<!-- CONTENIDO -->
-<section id="coaches">
+</div>
 
-    <h2>Servicios</h2>
+</section>  <!-- RESULTADOS -->  <div id="contenido"></div>  <!-- FOOTER -->  <div id="footer"></div>  <!-- Bootstrap JS -->  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  <!-- TU SCRIPT GENERAL (navbar/footer) -->  <script src="script.js"></script>  <!-- 🔐 PROTEGER LA PÁGINA -->  <script>  
+fetch("/usuario", { credentials: "include" })  
+.then(res => res.json())  
+.then(user => {  
+    if (!user) {  
+        window.location.href = "iniciar_sesion.html?redirect=coaches.html";  
+    }  
+});  
+</script>  <!-- 🚀 FUNCIONALIDAD CATÁLOGOS -->  <script>  
+  
+// =========================  
+// 🔥 PRODUCTOS  
+// =========================  
+function verProductos() {  
+  
+    const coaches = document.getElementById("coaches");  
+  
+    // 🔥 ocultar completamente (sin dejar espacio)  
+    coaches.style.display = "none";  
+    coaches.style.minHeight = "0";  
+    coaches.style.padding = "0";  
+  
+    fetch("/productos", {  
+        credentials: "include"  
+    })  
+    .then(res => res.json())  
+    .then(data => {  
+  
+        let html = `  
+            <div class="w-100 text-center mb-3">  
+                <button class="btn btn-secondary" onclick="volverServicios()">⬅ Volver</button>  
+            </div>  
+  
+            <div class="w-100 text-center mb-4">  
+                <h2 class="titulo-catalogo">🧴 Productos</h2>  
+            </div>  
+  
+            <div class="text-center mb-3">  
+                <button class="btn btn-outline-primary m-1" onclick="filtrar('Todos')">Todos</button>  
+                <button class="btn btn-outline-primary m-1" onclick="filtrar('Suplementos')">Creatinas</button>  
+                <button class="btn btn-outline-primary m-1" onclick="filtrar('Ropa')">Ropa</button>  
+            </div>  
+  
+            <div class="row" id="listaProductos"></div>  
+        `;  
+  
+        const contenedor = document.getElementById("contenido");  
+        contenedor.innerHTML = html;  
+  
+        window.productosGlobal = data;  
+        mostrarProductos(data);  
+  
+        // 🔥 scroll suave  
+        contenedor.scrollIntoView({ behavior: "smooth" });  
+    });  
+}  
+  
+  
+// =========================  
+// 🔥 MOSTRAR PRODUCTOS  
+// =========================  
+function mostrarProductos(data) {  
+    let html = "";  
+  
+    data.forEach(p => {  
+        html += `  
+            <div class="col-md-4">  
+                <div class="card p-3 m-2 shadow">  
+                    <h5>${p.nombre}</h5>  
+                    <p><strong>$${p.precio}</strong></p>  
+                    <span class="badge bg-primary">${p.categoria}</span>  
+                    <button class="btn btn-success mt-2" onclick="comprar('${p.nombre}', ${p.precio})">  
+                        Comprar  
+                    </button>  
+                </div>  
+            </div>  
+        `;  
+    });  
+  
+    document.getElementById("listaProductos").innerHTML = html;  
+}  
+  
+  
+// =========================  
+// 🔥 FILTRAR PRODUCTOS  
+// =========================  
+function filtrar(categoria) {  
+    if (categoria === "Todos") {  
+        mostrarProductos(window.productosGlobal);  
+    } else {  
+        const filtrados = window.productosGlobal.filter(p => p.categoria === categoria);  
+        mostrarProductos(filtrados);  
+    }  
+}  
+  
+  
+// =========================  
+// 🛒 COMPRAR  
+// =========================  
+function comprar(nombre, precio) {  
+  
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];  
+  
+    carrito.push({  
+        nombre: nombre ,  
+        precio: precio  
+    });  
+  
+    localStorage.setItem("carrito", JSON.stringify(carrito));  
+  
+    mostrarToast("🛒 Agregado: " + nombre);
+    actualizarCarrito();  
+}  
+  
+function mostrarToast(mensaje) {
+    const toast = document.getElementById("toast");
 
-    <div class="servicios-grid">
+    toast.textContent = mensaje;
+    toast.classList.add("show");
 
-        <div class="servicio-card" onclick="verProductos()">
-            <img src="img/productos.png" alt="Productos">
-            <div class="overlay">
-                <h2 class="titulo-catalogo">🧴 Productos</h2>
-            </div>
-        </div>
-
-        <div class="servicio-card" onclick="verCoaches()">
-            <img src="img/coaches.png" alt="Coaches">
-            <div class="overlay">
-                <h2 class="titulo-catalogo">🏋️ Coaches</h2>
-            </div>
-        </div>
-
-    </div>
-
-</section>
-
-<!-- RESULTADOS -->
-<div id="contenido"></div>
-
-<!-- FOOTER -->
-<div id="footer"></div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- TU SCRIPT GENERAL (navbar/footer) -->
-<script src="script.js"></script>
-
-<!-- 🔐 PROTEGER LA PÁGINA -->
-<script>
-fetch("/usuario", { credentials: "include" })
-.then(res => res.json())
-.then(user => {
-    if (!user) {
-        window.location.href = "iniciar_sesion.html?redirect=coaches.html";
-    }
-});
-</script>
-
-<!-- 🚀 FUNCIONALIDAD CATÁLOGOS -->
-<script>
-
-// =========================
-// 🔥 PRODUCTOS
-// =========================
-function verProductos() {
-
-    const coaches = document.getElementById("coaches");
-
-    // 🔥 ocultar completamente (sin dejar espacio)
-    coaches.style.display = "none";
-    coaches.style.minHeight = "0";
-    coaches.style.padding = "0";
-
-    fetch("/productos", {
-        credentials: "include"
-    })
-    .then(res => res.json())
-    .then(data => {
-
-        let html = `
-            <div class="w-100 text-center mb-3">
-                <button class="btn btn-secondary" onclick="volverServicios()">⬅ Volver</button>
-            </div>
-
-            <div class="w-100 text-center mb-4">
-                <h2 class="titulo-catalogo">🧴 Productos</h2>
-            </div>
-
-            <div class="text-center mb-3">
-                <button class="btn btn-outline-primary m-1" onclick="filtrar('Todos')">Todos</button>
-                <button class="btn btn-outline-primary m-1" onclick="filtrar('Keratina')">Keratinas</button>
-                <button class="btn btn-outline-primary m-1" onclick="filtrar('Ropa')">Ropa</button>
-            </div>
-
-            <div class="row" id="listaProductos"></div>
-        `;
-
-        const contenedor = document.getElementById("contenido");
-        contenedor.innerHTML = html;
-
-        window.productosGlobal = data;
-        mostrarProductos(data);
-
-        // 🔥 scroll suave
-        contenedor.scrollIntoView({ behavior: "smooth" });
-    });
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2000);
+}
+  
+// =========================  
+// 🏋️ COACHES  
+// =========================  
+function verCoaches() {  
+  
+    const coaches = document.getElementById("coaches");  
+  
+    // 🔥 ocultar completamente  
+    coaches.style.display = "none";  
+    coaches.style.minHeight = "0";  
+    coaches.style.padding = "0";  
+  
+    fetch("/coaches")  
+    .then(res => res.json())  
+    .then(data => {  
+  
+        let html = `  
+            <div class="w-100 text-center mb-3">  
+                <button class="btn btn-secondary" onclick="volverServicios()">⬅ Volver</button>  
+            </div>  
+  
+            <div class="w-100 text-center mb-4">  
+                <h2 class="titulo-catalogo">🏋️ Coaches</h2>  
+            </div>  
+  
+            <div class="text-center mb-3">  
+                <input type="text" id="busqueda" placeholder="Buscar ciudad..." class="form-control w-50 mx-auto">  
+                <button class="btn btn-success mt-2" onclick="buscarCoach()">Buscar</button>  
+            </div>  
+  
+            <div class="row" id="listaCoaches"></div>  
+        `;  
+  
+        const contenedor = document.getElementById("contenido");  
+        contenedor.innerHTML = html;  
+  
+        window.coachesGlobal = data;  
+        mostrarCoaches(data);  
+  
+        // 🔥 scroll suave  
+        contenedor.scrollIntoView({ behavior: "smooth" });  
+    });  
+}  
+  
+  
+// =========================  
+// 🔥 MOSTRAR COACHES  
+// =========================  
+function mostrarCoaches(data) {  
+    let html = "";  
+  
+    data.forEach(c => {  
+        html += `  
+            <div class="col-md-4">  
+                <div class="card p-3 m-2 shadow">  
+                    <h5>${c.nombre}</h5>  
+                    <p>${c.especialidad}</p>  
+                    <span class="badge bg-success">${c.ciudad}</span>  
+                </div>  
+            </div>  
+        `;  
+    });  
+  
+    document.getElementById("listaCoaches").innerHTML = html;  
+}  
+  
+  
+// =========================  
+// 🔍 BUSCAR COACH  
+// =========================  
+function normalizar(texto) {
+    return texto
+        .toLowerCase()
+        .normalize("NFD") // separa letras y tildes
+        .replace(/[\u0300-\u036f]/g, ""); // elimina tildes
 }
 
-
-// =========================
-// 🔥 MOSTRAR PRODUCTOS
-// =========================
-function mostrarProductos(data) {
-    let html = "";
-
-    data.forEach(p => {
-        html += `
-            <div class="col-md-4">
-                <div class="card p-3 m-2 shadow">
-                    <h5>${p.nombre}</h5>
-                    <p><strong>$${p.precio}</strong></p>
-                    <span class="badge bg-primary">${p.categoria}</span>
-                    <button class="btn btn-success mt-2" onclick="comprar('${p.nombre}', ${p.precio})">
-                        Comprar
-                    </button>
-                </div>
-            </div>
-        `;
-    });
-
-    document.getElementById("listaProductos").innerHTML = html;
-}
-
-
-// =========================
-// 🔥 FILTRAR PRODUCTOS
-// =========================
-function filtrar(categoria) {
-    if (categoria === "Todos") {
-        mostrarProductos(window.productosGlobal);
-    } else {
-        const filtrados = window.productosGlobal.filter(p => p.categoria === categoria);
-        mostrarProductos(filtrados);
-    }
-}
-
-
-// =========================
-// 🛒 COMPRAR
-// =========================
-function comprar(nombre, precio) {
-
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-    carrito.push({
-        nombre: nombre,
-        precio: precio
-    });
-
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-
-    alert("🛒 Agregado al carrito: " + nombre);
-    actualizarCarrito();
-}
-
-
-// =========================
-// 🏋️ COACHES
-// =========================
-function verCoaches() {
-
-    const coaches = document.getElementById("coaches");
-
-    // 🔥 ocultar completamente
-    coaches.style.display = "none";
-    coaches.style.minHeight = "0";
-    coaches.style.padding = "0";
-
-    fetch("/coaches")
-    .then(res => res.json())
-    .then(data => {
-
-        let html = `
-            <div class="w-100 text-center mb-3">
-                <button class="btn btn-secondary" onclick="volverServicios()">⬅ Volver</button>
-            </div>
-
-            <div class="w-100 text-center mb-4">
-                <h2 class="titulo-catalogo">🏋️ Coaches</h2>
-            </div>
-
-            <div class="text-center mb-3">
-                <input type="text" id="busqueda" placeholder="Buscar ciudad..." class="form-control w-50 mx-auto">
-                <button class="btn btn-success mt-2" onclick="buscarCoach()">Buscar</button>
-            </div>
-
-            <div class="row" id="listaCoaches"></div>
-        `;
-
-        const contenedor = document.getElementById("contenido");
-        contenedor.innerHTML = html;
-
-        window.coachesGlobal = data;
-        mostrarCoaches(data);
-
-        // 🔥 scroll suave
-        contenedor.scrollIntoView({ behavior: "smooth" });
-    });
-}
-
-
-// =========================
-// 🔥 MOSTRAR COACHES
-// =========================
-function mostrarCoaches(data) {
-    let html = "";
-
-    data.forEach(c => {
-        html += `
-            <div class="col-md-4">
-                <div class="card p-3 m-2 shadow">
-                    <h5>${c.nombre}</h5>
-                    <p>${c.especialidad}</p>
-                    <span class="badge bg-success">${c.ciudad}</span>
-                </div>
-            </div>
-        `;
-    });
-
-    document.getElementById("listaCoaches").innerHTML = html;
-}
-
-
-// =========================
-// 🔍 BUSCAR COACH
-// =========================
 function buscarCoach() {
-    const ciudad = document.getElementById("busqueda").value.toLowerCase();
+    const ciudad = normalizar(document.getElementById("busqueda").value);
 
     const filtrados = window.coachesGlobal.filter(c => 
-        c.ciudad.toLowerCase().includes(ciudad)
+        normalizar(c.ciudad).includes(ciudad)
     );
 
     mostrarCoaches(filtrados);
-}
-
-
-// =========================
-// 🔙 VOLVER
-// =========================
-function volverServicios() {
-    const coaches = document.getElementById("coaches");
-
-    // 🔥 restaurar todo
-    coaches.style.display = "flex";
-    coaches.style.minHeight = "auto";
-    coaches.style.padding = "40px 0";
-
-    document.getElementById("contenido").innerHTML = "";
-}
-
-</script>
-</body>
+} 
+  
+  
+// =========================  
+// 🔙 VOLVER  
+// =========================  
+function volverServicios() {  
+    const coaches = document.getElementById("coaches");  
+  
+    // 🔥 restaurar todo  
+    coaches.style.display = "flex";  
+    coaches.style.minHeight = "auto";  
+    coaches.style.padding = "40px 0";  
+  
+    document.getElementById("contenido").innerHTML = "";  
+}  
+  
+</script> 
+<div id="toast"></div>
+ </body>  
 </html>
