@@ -28,10 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// 👤 USUARIO
 function cargarUsuario() {
 
     const menu = document.getElementById("menuUsuario");
+    const carrito = document.getElementById("iconoCarrito"); // 👈 AÑADIDO
+
     if (!menu) return;
 
     fetch("/usuario", { credentials: "include" })
@@ -39,24 +40,32 @@ function cargarUsuario() {
         .then(user => {
 
             if (user) {
-            menu.innerHTML = `
-                <li class="nav-item d-flex align-items-center">
-                    <span class="nav-link mb-0">👤 Hola, ${user.nombre}</span>
-                    <a class="nav-link ms-2" href="#" onclick="logout()">Cerrar sesión</a>
-                </li>
-            `;
+
+                // ✅ MOSTRAR CARRITO
+                if (carrito) carrito.style.display = "block";
+
+                menu.innerHTML = `
+                    <li class="nav-item d-flex align-items-center">
+                        <span class="nav-link mb-0">👤 Hola, ${user.nombre}</span>
+                        <a class="nav-link ms-2" href="#" onclick="logout()">Cerrar sesión</a>
+                    </li>
+                `;
+
             } else {
-            menu.innerHTML = `
-                <li class="nav-item d-flex align-items-center">
-                    <a class="nav-link" href="iniciar_sesion.html">Iniciar Sesión</a>
-                    <a class="nav-link ms-2" href="registrarse.html">Registrarse</a>
-                </li>
-            `;
+
+                // ❌ OCULTAR CARRITO
+                if (carrito) carrito.style.display = "none";
+
+                menu.innerHTML = `
+                    <li class="nav-item d-flex align-items-center">
+                        <a class="nav-link" href="iniciar_sesion.html">Iniciar Sesión</a>
+                        <a class="nav-link ms-2" href="registrarse.html">Registrarse</a>
+                    </li>
+                `;
             }
 
         });
 }
-
 
 // 🛒 CONTADOR CARRITO
 function actualizarCarrito() {

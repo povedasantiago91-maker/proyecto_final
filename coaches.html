@@ -41,7 +41,8 @@ fetch("/usuario", { credentials: "include" })
         window.location.href = "iniciar_sesion.html?redirect=coaches.html";  
     }  
 });  
-</script>  <!-- 🚀 FUNCIONALIDAD CATÁLOGOS -->  <script>  
+</script>  <!-- 🚀 FUNCIONALIDAD CATÁLOGOS -->  
+<script>  
   
 // =========================  
 // 🔥 PRODUCTOS  
@@ -96,21 +97,29 @@ function verProductos() {
 // =========================  
 function mostrarProductos(data) {  
     let html = "";  
-  
+
     data.forEach(p => {  
+
+        const nombre = (p.nombre || "").replace(/'/g, "");
+        const precio = p.precio || 0;
+        const categoria = p.categoria || "";
+
         html += `  
             <div class="col-md-4">  
                 <div class="card p-3 m-2 shadow">  
-                    <h5>${p.nombre}</h5>  
-                    <p><strong>$${p.precio}</strong></p>  
-                    <span class="badge bg-primary">${p.categoria}</span>  
-                    <button class="btn btn-success mt-2" onclick="comprar('${p.nombre}', ${p.precio})">  
+                    <h5>${nombre}</h5>  
+                    <p><strong>$${precio}</strong></p>  
+                    <span class="badge bg-primary">${categoria}</span>  
+                    <button class="btn btn-success mt-2" onclick="comprar('${nombre}', ${precio})">  
                         Comprar  
                     </button>  
                 </div>  
             </div>  
         `;  
     });  
+
+    document.getElementById("listaProductos").innerHTML = html;  
+
   
     document.getElementById("listaProductos").innerHTML = html;  
 }  
@@ -133,22 +142,24 @@ function filtrar(categoria) {
 // 🛒 COMPRAR  
 // =========================  
 function comprar(nombre, precio) {  
-  
+
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];  
-  
-    carrito.push({  
-        nombre: nombre ,  
-        precio: precio  
-    });  
-  
+
+    carrito.push({ nombre, precio });  
+
     localStorage.setItem("carrito", JSON.stringify(carrito));  
-  
+
     mostrarToast("🛒 Agregado: " + nombre);
-    actualizarCarrito();  
-}  
+
+    // ✅ evita error si no existe
+    if (typeof actualizarCarrito === "function") {
+        actualizarCarrito();
+    }
   
 function mostrarToast(mensaje) {
     const toast = document.getElementById("toast");
+
+    if (!toast) return;
 
     toast.textContent = mensaje;
     toast.classList.add("show");
@@ -157,7 +168,7 @@ function mostrarToast(mensaje) {
         toast.classList.remove("show");
     }, 2000);
 }
-  
+}
 // =========================  
 // 🏋️ COACHES  
 // =========================  
@@ -173,7 +184,8 @@ function verCoaches() {
     fetch("/coaches")  
     .then(res => res.json())  
     .then(data => {  
-  
+        
+        console.log("coaches desde backend: ",data)
         let html = `  
             <div class="w-100 text-center mb-3">  
                 <button class="btn btn-secondary" onclick="volverServicios()">⬅ Volver</button>  
@@ -229,22 +241,44 @@ function mostrarCoaches(data) {
 // 🔍 BUSCAR COACH  
 // =========================  
 function normalizar(texto) {
-    return texto
+    return (texto || "")
         .toLowerCase()
         .normalize("NFD") // separa letras y tildes
         .replace(/[\u0300-\u036f]/g, ""); // elimina tildes
 }
 
 function buscarCoach() {
-    const ciudad = normalizar(document.getElementById("busqueda").value);
+
+    const input = document.getElementById("busqueda");
+    if (!input || !window.coachesGlobal) return;
+
+    const ciudad = normalizar(input.value.trim());
 
     const filtrados = window.coachesGlobal.filter(c => 
-        normalizar(c.ciudad).includes(ciudad)
+        normalizar(c.ciudad || "").includes(ciudad)
     );
+    console.log("resultado", filtrados)
 
     mostrarCoaches(filtrados);
-} 
-  
+}
+
+function filtrarCoaches(ciudad) {
+
+    const texto = normalizar(ciudad);
+
+    const filtrados = window.coachesGlobal.filter(c => {
+        const ciudadCoach = normalizar(c.ciudad);
+
+        return ciudadCoach.includes(texto);
+    });
+
+    // 👇 SI NO HAY RESULTADOS, MUESTRA TODOS
+    if (filtrados.length === 0) {
+        mostrarCoaches(window.coachesGlobal);
+    } else {
+        mostrarCoaches(filtrados);
+    }
+}  
   
 // =========================  
 // 🔙 VOLVER  
