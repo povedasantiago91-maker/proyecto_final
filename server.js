@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 const session = require("express-session");
+const path = require("path");
 
 const app = express();
 
@@ -20,8 +21,6 @@ app.use(session({
     }
 }));
 
-app.use(express.static(__dirname));
-
 // 🔗 CONEXIÓN A MYSQL
 const db = mysql.createConnection({
     host: "localhost",
@@ -36,6 +35,10 @@ db.connect(err => {
     } else {
         console.log("Conectado a MySQL");
     }
+});
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.get("/productos", (req, res) => {
@@ -119,9 +122,14 @@ app.get("/logout", (req, res) => {
     });
 });
 
+app.use(express.static("public"));
 
-// 🚀 SERVIDOR
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-    console.log(`Servidor en http://localhost:${PORT}`);
+    console.log("Servidor corriendo en puerto", PORT);
 });
